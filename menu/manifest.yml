@@ -1,0 +1,10 @@
+---
+applications:
+- name: menu
+  host: menu
+  instances: 2
+  buildpack: java_buildpack_offline
+  memory: 512M
+  path: target/menu.jar
+  env:
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
