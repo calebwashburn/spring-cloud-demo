@@ -8,3 +8,5 @@ applications:
   path: target/menu.jar
   env:
     JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+  services:
+  - config-server

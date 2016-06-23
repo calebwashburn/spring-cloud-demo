@@ -9,12 +9,12 @@
 	<packaging>jar</packaging>
 
 	<name>menu</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Menu microservice</description>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.3.5.RELEASE</version>
+		<groupId>io.pivotal.spring.cloud</groupId>
+		<artifactId>spring-cloud-services-starter-parent</artifactId>
+		<version>1.0.2.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -29,6 +29,11 @@
 			<artifactId>spring-cloud-services-starter-config-client</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>io.pivotal.spring.cloud</groupId>
+			<artifactId>spring-cloud-services-starter-service-registry</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
@@ -37,40 +42,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>io.pivotal.spring.cloud</groupId>
-				<artifactId>spring-cloud-services-dependencies</artifactId>
-				<version>1.1.0.RC1</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Brixton.SR1</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<build>
 		<finalName>menu</finalName>
@@ -81,15 +59,11 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<repositories>
 		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
+			<id>spring-release</id>
+			<url>https://repo.spring.io/libs-release</url>
 		</repository>
 	</repositories>
 
