@@ -1,62 +1,41 @@
-#Spring Cloud Config Server Demo
+#Spring Cloud Config Server Demo with Spring Cloud Bus
 
-Change the parent pom to spring-cloud-services-starter-parent
-
-```
-<parent>
-	<groupId>io.pivotal.spring.cloud</groupId>
-	<artifactId>spring-cloud-services-starter-parent</artifactId>
-	<version>1.0.2.RELEASE</version>
-	<relativePath /> <!-- lookup parent from repository -->
-</parent>
-```
-
-Add the following dependencies to your application to enable spring cloud config
-
+Follow the setup for Spring Cloud Config Example and add the following dependency.
 
 ```
 <dependency>
-		<groupId>io.pivotal.spring.cloud</groupId>
-		<artifactId>spring-cloud-services-starter-config-client</artifactId>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-bus-amqp</artifactId>
 </dependency>
 ```
 
 
-
-To run locally run the config-server project to startup a local config server.  Otherwise it will just pull values from application instead of remote GIT repo.
-
-To deploy to cloud Foundry
+To deploy to cloud Foundry must add a AMQP service to be the communication backbone between instances
 
 Push menu application with --no-start
 ```
 cf push --no-start
 ```
-Create a config-service
+Create a rabbitMQ service
 
 ```
-cf create-service -c '{ "git": { "uri": "https://github.com/calebwashburn/spring-cloud-demo-config", "label": "master" } }' p-config-server standard config-server
+cf create-service p-rabbitmq standard menu-spring-bus
 ```
 
 Bind the application to the service
 
 ```
-cf bind-service menu config-server
+cf bind-service menu menu-spring-bus
 ```
 
-Start up the application which will finish staging and bind with the variables from config server
+Start up the application which will finish staging and bind with rabbitMQ to create a application bus
 
 ```
 cf start menu
 ```
 
-Anytime configuration is changed in GIT do either of the following.
+Anytime configuration is changed in GIT can then be picked up by doing a post to bus/refresh which will notify all members of cluster to refresh their application context.
 
 ```
-cf restart
-```
-
-or can dynamically force a refresh but only refreshes a single node.  See Spring bus support for enabling cluster wide refresh
-
-```
-curl -X POST https://menu.apps.caleb-washburn.com/refresh
+curl -X POST https://menu.apps.caleb-washburn.com/bus/refresh
 ```
