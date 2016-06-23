@@ -1,6 +1,6 @@
 # Spring Cloud Circuit Breaker
 
-## Menu service
+## Restaurant service
 Follow the the directions in the Spring Service Registry example and add the following to restaurant application
 
 
