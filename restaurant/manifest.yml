@@ -1,0 +1,12 @@
+---
+applications:
+- name: restaurant
+  host: restaurant
+  instances: 2
+  buildpack: java_buildpack_offline
+  memory: 512M
+  path: target/restaurant.jar
+  env:
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+  services:
+  - service-registry
