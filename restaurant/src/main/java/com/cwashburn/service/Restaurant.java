@@ -13,6 +13,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.cwashburn.domain.MenuSpecial;
 import com.cwashburn.domain.RestaurantMenu;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 
 @Component
 public class Restaurant {
@@ -26,6 +28,7 @@ public class Restaurant {
 	@Value("${restaurant.name}")
 	String name;
 	
+	@HystrixCommand(fallbackMethod = "getDefaultMenu")
 	public RestaurantMenu getMenu() {
 		//if downstream service uses direct use http vs using https if route registration method for url
 		
@@ -33,6 +36,10 @@ public class Restaurant {
 		LOGGER.info(String.format("Invoking service on url: %s", uri.toString()));
 		MenuSpecial menu = rest.getForObject(uri, MenuSpecial.class);
 		return new RestaurantMenu(menu.getSpecial(), name);
+	}
+	
+	public RestaurantMenu getDefaultMenu() {
+		return new RestaurantMenu("Sold out", name);
 	}
 
 }
