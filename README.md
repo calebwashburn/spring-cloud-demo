@@ -1,5 +1,6 @@
-#Spring Cloud Service Registry
+# Spring Cloud Service Registry
 
+## Menu service
 Follow the the directions in the Spring Cloud Config example and add the following....
 
 Add the following dependencies to menu application to enable spring cloud service registry
@@ -49,3 +50,33 @@ By default the registry will use the route method for registration to change thi
 ```
 spring.cloud.services.registrationMethod=direct
 ```
+
+## Restaurant Service
+The restaurant service consumes menu service via Netflix Ribbon client side load-balancer since menu used direct registration.  This allows balancing workloads across all the containers dynamically that menu service is registred on.  This is accomplished with the @LoadBalanced annotation.
+
+```
+@Autowired
+@LoadBalanced
+private RestTemplate rest;
+
+public RestaurantMenu getMenu() {
+		//if downstream service uses direct use http vs using https if route registration method for url
+		
+		URI uri = UriComponentsBuilder.fromUriString("http://menu/special").build().toUri();
+		LOGGER.info(String.format("Invoking service on url: %s", uri.toString()));
+		MenuSpecial menu = rest.getForObject(uri, MenuSpecial.class);
+		return new RestaurantMenu(menu.getSpecial(), name);
+}
+
+```
+
+Push the restaurant microservice
+
+```
+cf push restaurant
+```
+
+No need to bind or create the service as it already exists and manifest has the service listed as a dependency.
+
+
+
