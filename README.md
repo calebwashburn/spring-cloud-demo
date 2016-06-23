@@ -1,6 +1,18 @@
 #Spring Cloud Config Server Demo
 
+Change the parent pom to spring-cloud-services-starter-parent
+
+```
+<parent>
+	<groupId>io.pivotal.spring.cloud</groupId>
+	<artifactId>spring-cloud-services-starter-parent</artifactId>
+	<version>1.0.2.RELEASE</version>
+	<relativePath /> <!-- lookup parent from repository -->
+</parent>
+```
+
 Add the following dependencies to your application to enable spring cloud config
+
 
 ```
 <dependency>
@@ -9,28 +21,7 @@ Add the following dependencies to your application to enable spring cloud config
 </dependency>
 ```
 
-Add Dependency management to pull in latest spring cloud versions
 
-```
-<dependencyManagement>
-	<dependencies>
-		  <dependency>
-				<groupId>io.pivotal.spring.cloud</groupId>
-				<artifactId>spring-cloud-services-dependencies</artifactId>
-				<version>1.1.0.RC1</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Brixton.SR1</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-	</dependencies>
-</dependencyManagement>
-```
 
 To run locally run the config-server project to startup a local config server.  Otherwise it will just pull values from application instead of remote GIT repo.
 
